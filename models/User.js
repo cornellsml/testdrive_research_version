@@ -25,8 +25,7 @@ const userSchema = new mongoose.Schema({
   mturkID: String, //not used in TestDrive
 
   //Experimental group of this user
-  //Not used in TestDrive
-  // group: String, //full group type
+  group: String, //full group type
   // ui: String,    //just UI type (no or ui)
   // notify: String, //notification type (no, low or high)
 

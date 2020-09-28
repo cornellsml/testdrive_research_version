@@ -435,9 +435,15 @@ app.get('/start/:modId', passportConfig.isAuthenticated, function (req, res) {
 });
 
 app.get('/intro/:modId', passportConfig.isAuthenticated,function (req, res) {
-  res.render('base_intro.pug', {
-    title: 'Welcome'
-  });
+  if(req.param("modId") === 'eval'){
+    res.render('eval/eval_intro', {
+      title: 'Welcome'
+    });
+  } else {
+    res.render('base_intro.pug', {
+      title: 'Welcome'
+    });
+  }
 });
 app.get('/tut_guide/:modId', passportConfig.isAuthenticated, function (req, res) {
   res.render(req.param("modId") + '/' + req.param("modId")+'_tut_guide', {

@@ -1,0 +1,51 @@
+extends ../ui_layout
+
+block content
+  -var cdn = "https://dhpd030vnpk29.cloudfront.net";
+  .ui.container.addBottomMargin
+    .ui.stackable.column.grid
+      .ui.column
+        .insertPrint
+        .ui.raised.segment
+          h3.ui.header
+            i.question.blue.icon
+            .content
+              | Reflect
+
+    .ui.raised.segment.responseOne
+      .ui.label
+        h4.reflectionPrompt
+          | Question 1 for the reflection section.
+      .ui.form
+        .inline.fields
+          label
+          textarea.glowing-border(rows='2' id="eval_responseOne")
+
+    .ui.raised.segment.responseTwo
+      .ui.label
+        h4.reflectionPrompt
+          | Question 2 for the reflection section.
+      .ui.form
+        .inline.fields
+          label
+          textarea.glowing-border(rows='2' id="eval_responseTwo")
+          
+        
+    br
+    .ui.big.green.labeled.icon.button(onclick="onPrint()")
+          i.right.arrow.icon
+          |   Print your responses
+    br
+    br
+    .ui.big.green.labeled.icon.button.results_end
+          i.rocket.icon
+          |   Continue
+          
+          
+block scripts
+  script(src="/module_js/eval/eval_results.js")
+  script(src='/module_js/base_results.js')
+    
+block styles
+  link(rel='stylesheet', href='/css/results.css')
+  

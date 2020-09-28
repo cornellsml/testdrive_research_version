@@ -204,7 +204,7 @@ function createPostInstances() {
                 script.save(function (err) {
                     if (err) {
                         console.log("Something went wrong in Saving POST!!!");
-                        // console.log(err);
+                        console.log(err);
                         callback(err);
                     }
                     // console.log('Saved New Post: ' + script.id);
