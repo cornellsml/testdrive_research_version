@@ -7,47 +7,44 @@ block content
     br
 
     .ui.four.stackable.link.cards(style="padding-bottom:4em;")
-        if (user.group === 'A')
-          a.ui.card(href='/intro/esteem')
-            .image
-              .ui.grey.ribbon.label In Development
-              img(src=cdn+'/esteem.png')
-            .content
-              .header="The Ups and Downs of Social Media" 
-        if (user.group === 'B')
-          a.ui.card(href='/intro/digital-literacy')
-            .image
-              img(src=cdn+'/news.png')
-            .content
-              .header="News in Social Media"
-        if (user.group === 'C')  
-          a.ui.card(href='/intro/targeted')
-            .image
-              .ui.blue.ribbon.label NEW!
-              img(src=cdn+'/targetedads.png')
-            .content
-              .header="Ads on Social Media"
-        if (user.group === 'D')  
-          a.ui.card(href='/intro/phishing')
-            .image
-              .ui.blue.ribbon.label NEW!
-              img(src=cdn+'/phishing.png')
-            .content
-              .header="Scams and Phishing"
-        if (user.group === 'E')  
-          a.ui.card(href='/intro/cyberbullying')
-            .image
-              img(src=cdn+'/upstander.png')
-            .content
-              .header="How to Be an Upstander"
-        if (user.group === 'F')      
-          a.ui.card(href='/intro/digfoot')
-            .image
-              img(src=cdn+'/digfoot.png')
-            .content
-              .header="Shaping Your Digital Footprint"
+        
+        a.ui.card(style="display:none;" href='/intro/esteem' data-modCard="esteem")
+          .image
+            img(src=cdn+'/esteem.png')
+          .content
+            .header="The Ups and Downs of Social Media" 
+
+        a.ui.card(style="display:none;" href='/intro/digital-literacy' data-modCard="digital-literacy")
+          .image
+            img(src=cdn+'/news.png')
+          .content
+            .header="News in Social Media"
+
+        a.ui.card(style="display:none;" href='/intro/targeted' data-modCard="targeted")
+          .image
+            img(src=cdn+'/targetedads.png')
+          .content
+            .header="Ads on Social Media"
+
+        a.ui.card(style="display:none;" href='/intro/phishing' data-modCard="phishing")
+          .image
+            img(src=cdn+'/phishing.png')
+          .content
+            .header="Scams and Phishing"
+
+        a.ui.card(style="display:none;" href='/intro/cyberbullying' data-modCard="cyberbullying")
+          .image
+            img(src=cdn+'/upstander.png')
+          .content
+            .header="How to Be an Upstander"
+   
+        a.ui.card(style="display:none;" href='/intro/digfoot' data-modCard="digfoot")
+          .image
+            img(src=cdn+'/digfoot.png')
+          .content
+            .header="Shaping Your Digital Footprint"
               
-        a.ui.card(href='/intro/eval')
+        a.ui.card(style="display:none;" href='/intro/eval' data-modCard="eval")
           .image
             .ui.green.ribbon.label Final Module
             img(src=cdn+'/advancednews.png' style="opacity:0;")
@@ -92,4 +89,7 @@ block content
         //-     img(src=cdn+'/smprivacy.png')
         //-   .content
         //-     .header="Social Media Privacy" 
-          
+block scripts
+  script.  
+    const userGroup = "#{user.group}";
+  script(src='/module_js/mods.js')
