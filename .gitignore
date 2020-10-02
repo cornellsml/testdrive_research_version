@@ -39,5 +39,6 @@ Thumbs.db
 
 # misc files
 create-account-batch.js
+create-account-batch-dev.js
 public2/audioFiles/cyberbullying
 public2/audioFiles/esteem

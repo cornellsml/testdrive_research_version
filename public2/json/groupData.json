@@ -1,0 +1,33 @@
+{
+  "groups": {
+    "groupA": {
+      "phase1": "cyberbullying",
+      "phase2": "esteem",
+      "phase3": "digfoot",
+      "final": "eval"
+    },
+    "groupB": {
+      "phase1": "digital-literacy",
+      "phase2": "targeted",
+      "phase3": "phishing",
+      "final": "eval"
+    },
+    "groupC": {
+      "phase1": "phishing",
+      "phase2": "digital-literacy",
+      "phase3": "targeted",
+      "final": "eval"
+    },
+    "groupD": {
+      "phase1": "digfoot",
+      "phase2": "cyberbullying",
+      "phase3": "esteem",
+      "final": "eval"
+    }
+  },
+  "startTimes": {
+    "phase2": "10/1/2020",
+    "phase3": "10/2/2020",
+    "final": "10/3/2020"
+  }
+}
