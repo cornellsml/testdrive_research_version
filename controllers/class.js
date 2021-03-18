@@ -523,7 +523,49 @@ async function getUniqueUsername(accessCode, adjectiveArray, nounArray, username
   return usernameArray;
 }
 
+/*
+function copied from MDN Web Docs:
+"This example returns a random integer between the specified values. The value
+is no lower than min (or the next integer greater than min if min isn't an
+integer), and is less than (but not equal to) max."
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+*/
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+}
+
+function assignModules() {
+  // list of modules that are going to be included in the study,
+  // and randomly assigned to each student to complete.
+  const moduleList = [
+    "cyberbullying",
+    "digfoot",
+    "digital-literacy",
+    "esteem",
+    "phishing",
+    "targeted"
+  ];
+  const assignedModules = {
+    "module1": "",
+    "module2": "",
+    "module3": "",
+    "module4": ""
+  };
+  for (let i=1; i <= 4; i++) {
+    const key = `module${i}`;
+    const randomIndex = getRandomInt(0, moduleList.length);
+    const value = moduleList[randomIndex];
+    assignedModules[key] = value;
+    // remove the element from the moduleList
+    moduleList.splice(randomIndex, 1);
+  }
+  return assignedModules;
+}
+
 async function saveUsernameInExistingClass(req, item, existingClass) {
+
   let duplicateUser = await User.findOne({
     username: item,
     accessCode: req.body.accessCode,
@@ -536,12 +578,20 @@ async function saveUsernameInExistingClass(req, item, existingClass) {
   if (duplicateUser) {
     return next("Found duplicate user, check getUniqueUsername");
   }
+  // get randomized module assignments
+  const assignedModules = assignModules();
   const user = new User({
     username: item,
     active: true,
     start : Date.now(),
     isStudent: true,
-    accessCode: req.body.accessCode
+    accessCode: req.body.accessCode,
+    assignedModules: {
+      module1: assignedModules.module1,
+      module2: assignedModules.module2,
+      module3: assignedModules.module3,
+      module4: assignedModules.module4
+    }
   });
   user.profile.name = "Student";
   user.profile.location = '';

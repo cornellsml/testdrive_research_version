@@ -22,6 +22,12 @@ const userSchema = new mongoose.Schema({
   completed: {type: Boolean, default: false}, //not used in TestDrive
   reflectionCsv: {type: String, default: ''},
   timeReportCsv: {type: String, default: ''},
+  assignedModules: {
+    module1: {type: String, default: ""},
+    module2: {type: String, default: ""},
+    module3: {type: String, default: ""},
+    module4: {type: String, default: ""}
+  },
   moduleProgress: { // marks the progress of each module: none, started, completed
     accounts: {type: String, default: 'none'},
     advancedlit: {type: String, default: 'none'},
