@@ -17,9 +17,9 @@ const moduleCards = {
 };
 
 function startIntro(){
-  const modNameNoDashes = pathArray[2].replace('-','');
+  const modName= pathArray;
   $.post("/moduleProgress", {
-    module: modNameNoDashes,
+    module: modName,
     status: 'started',
     _csrf: $('meta[name="csrf-token"]').attr('content')
   }).then(function(){

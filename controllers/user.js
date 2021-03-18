@@ -996,10 +996,12 @@ exports.postUpdateModuleProgress = (req, res, next) => {
     if (err) {
       return next(err);
     }
+    const modNameNoDashes = req.body.module.replace('-','');
     // Once marked completed, do not update status again.
-    if(user.moduleProgress[req.body.module] !== 'completed'){
-      user.moduleProgress[req.body.module] = req.body.status;
+    if (user.moduleProgress[modNameNoDashes] !== 'completed'){
+      user.moduleProgress[modNameNoDashes] = req.body.status;
     }
+    user.moduleProgressTimestamps[req.body.module] = Date.now();
     user.save((err) => {
       if (err) {
         return next(err);
@@ -1010,6 +1012,101 @@ exports.postUpdateModuleProgress = (req, res, next) => {
     });
   });
 };
+
+function pushVisibleModule(assignedModule, moduleStatus, visibleModules) {
+  const visibleModule = {
+    name: assignedModule,
+    status: moduleStatus
+  }
+  visibleModules.push(visibleModule);
+  return;
+}
+
+/*
+Specific to the outcome evaluation in April 2021.
+
+There are 4 modules assigned to each student.
+They need to become available sequentially on the homepage, as they are completed.
+
+Look through each of the assigned modules for the currently logged in student,
+and then return a list of all the modules that should be visible on the homepage
+at the time of the request. A module may be in this list if:
+
+- It is the first module in the sequence,
+- It has been started/completed,
+- It is the "active" module,
+- It is "upcoming" to be completed.
+
+Statuses:
+
+"active":
+This is the module the student should complete at this time. Only one module
+should ever be active at a time. It is possible that no modules are active.
+
+"upcoming":
+The previous module in the sequence has been started/completed. The module that is
+"upcoming" will become clickable once *20 hours* have passed since the previous
+module was started/completed. The "upcoming" module may have a preview
+until then, so it is included in the list of visible modules.
+
+"completed" or "started":
+The module has been completed or started. If it is started, it may not be active
+depending on the time elapsed. It becomes inactive 20 hours after starting.
+*/
+exports.getVisibleModules = (req, res, next) => {
+  if (!req.user.isStudent) {
+    return res.status(400).send("Bad Request");
+  }
+  let visibleModules = [];
+  // iterate through the assigned modules in order, 1-4.
+  for (let i=1; i<5; i++) {
+    const assignedModuleKey = `module${i}`;
+    const assignedModule = req.user.assignedModules[assignedModuleKey];
+    // check the status of this module from the db (none/started/completed).
+    // recall that user.moduleProgress properties are modNames without dashes.
+    const assignedModuleNoDashes = assignedModule.replace('-','');
+    const moduleStatus = req.user.moduleProgress[assignedModuleNoDashes];
+    if (moduleStatus === "completed" || moduleStatus === "started") {
+      // Automatically add this module to the list of displayed modules.
+      // Use the status "completed"/"started".
+      pushVisibleModule(assignedModule, moduleStatus, visibleModules);
+    } else {
+      // This module has not been started.
+      if (i === 1) {
+        // This is the first module, which can be automatically added to the list of displayed modules.
+        // Mark the status as "active", since this is the module the student
+        // should see as available.
+        pushVisibleModule(assignedModule, "active", visibleModules);
+      } else {
+        // Not started, and not the first module.
+        // Need to check if it has been at least 20 hours since the previous
+        // module's status changed.
+        const prevAssignedModKey = `module${i-1}`
+        const prevAssignedModule = req.user.assignedModules[prevAssignedModKey];
+        const prevModStatusChangeTime = req.user.moduleProgressTimestamps[prevAssignedModule];
+        if (prevModStatusChangeTime === null) {
+          // The previous module in the sequence has not been started, so this
+          // module should not be shown at all.
+        } else {
+          // 20 hours = 7.2e+7 milliseconds
+          const currentTime = Date.now();
+          if ((currentTime - prevModStatusChangeTime) >= 72000000) {
+            // The previous module was completed/started over 20 hours ago. Add
+            // to visible Modules. Mark the status as "active", since this is
+            // the module the student should see as available.
+            pushVisibleModule(assignedModule, "active", visibleModules);
+          } else {
+            // The previous module was completed/started less than 20 hours ago.
+            // Add to visible Modules. Mark the status as "upcoming", since it
+            // could be visible as a preview, but not clickable.
+            pushVisibleModule(assignedModule, "upcoming", visibleModules);
+          }
+        }
+      }
+    }
+  }
+  return res.send(visibleModules);
+}
 
 exports.postUpdateNewBadge = (req, res, next) => {
   User.findById(req.user.id, (err, user) => {

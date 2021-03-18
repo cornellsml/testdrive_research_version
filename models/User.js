@@ -42,6 +42,20 @@ const userSchema = new mongoose.Schema({
     safeposting: {type: String, default: 'none'},
     targeted: {type: String, default: 'none'},
   },
+  moduleProgressTimestamps: {
+    accounts: {type: Date, default: null},
+    advancedlit: {type: Date, default: null},
+    cyberbullying: {type: Date, default: null},
+    digfoot: {type: Date, default: null},
+    "digital-literacy": {type: Date, default: null},
+    esteem: {type: Date, default: null},
+    habits: {type: Date, default: null},
+    phishing: {type: Date, default: null},
+    presentation: {type: Date, default: null},
+    privacy: {type: Date, default: null},
+    "safe-posting": {type: Date, default: null},
+    targeted: {type: Date, default: null}
+  },
   earnedBadges: [new Schema({
     badgeId: String,
     badgeTitle: String,

@@ -510,7 +510,8 @@ app.get('/gaming/targeted', passportConfig.isAuthenticated, csrfProtection, addC
   });
 });
 
-
+// Specific to the outcome evaluation
+app.get('/getVisibleModules', passportConfig.isAuthenticated, csrfProtection, addCsrf, userController.getVisibleModules);
 
 if(enableTeacherDashboard){
   //Classes

@@ -17,9 +17,9 @@ $('.ui.big.green.labeled.icon.button.finish')
     const isResearchVersion = $('meta[name="isResearchVersion"]').attr('content') === "true";
     if (isResearchVersion) {
       const pathArray = window.location.pathname.split('/');
-      const modNameNoDashes = pathArray[2].replace('-','');
+      const modName = pathArray[2];
       await $.post("/moduleProgress", {
-        module: modNameNoDashes,
+        module: modName,
         status: 'completed',
         _csrf: $('meta[name="csrf-token"]').attr('content')
       });
