@@ -2,6 +2,10 @@
   display: none !important;
 }
 
+.setVisibilityHidden {
+  visibility: hidden !important;
+}
+
 .success.message {
   margin-top: 20px !important;
 }

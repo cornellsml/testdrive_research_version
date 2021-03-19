@@ -153,6 +153,9 @@ $(window).on('load', async function(){
   // Determine if the "next module" section should be hidden in favor of a
   // "no modules remaining" success message
   const pastModuleCardCount = $('.inactiveModulesSegment .card').length;
+  if(pastModuleCardCount > 0){
+    $('.inactiveModulesSegment h2').removeClass('setVisibilityHidden');
+  }
   if (pastModuleCardCount === 4) {
     $('.activeModuleSegment').addClass('setDisplayNone');
     $('.noModsRemainingMessage').removeClass('setDisplayNone');
