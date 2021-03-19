@@ -1049,9 +1049,12 @@ The previous module in the sequence has been started/completed. The module that 
 module was started/completed. The "upcoming" module may have a preview
 until then, so it is included in the list of visible modules.
 
-"completed" or "started":
-The module has been completed or started. If it is started, it may not be active
-depending on the time elapsed. It becomes inactive 20 hours after starting.
+"completed":
+The module has been completed. This will always be visible.
+
+"started"
+It will be visible, but may not be clickable
+depending on the time elapsed. It becomes unclickable 20 hours after starting.
 */
 exports.getVisibleModules = (req, res, next) => {
   if (!req.user.isStudent) {
@@ -1066,10 +1069,31 @@ exports.getVisibleModules = (req, res, next) => {
     // recall that user.moduleProgress properties are modNames without dashes.
     const assignedModuleNoDashes = assignedModule.replace('-','');
     const moduleStatus = req.user.moduleProgress[assignedModuleNoDashes];
-    if (moduleStatus === "completed" || moduleStatus === "started") {
+    if (moduleStatus === "completed") {
       // Automatically add this module to the list of displayed modules.
-      // Use the status "completed"/"started".
+      // Use the status "completed".
       pushVisibleModule(assignedModule, moduleStatus, visibleModules);
+    } else if (moduleStatus === "started") {
+      // Need to check if it has been at least 20 hours since this
+      // module's status changed to determine if clickable.
+       const lastChanged = req.user.moduleProgressTimestamps[assignedModule];
+       const currentTime = Date.now();
+       // 20 hours = 7.2e+7 milliseconds
+       if((currentTime - lastChanged) > 72000000) {
+         const visibleModule = {
+           name: assignedModule,
+           status: moduleStatus,
+           clickable: false
+         }
+         visibleModules.push(visibleModule);
+       } else {
+         const visibleModule = {
+           name: assignedModule,
+           status: moduleStatus,
+           clickable: true
+         }
+         visibleModules.push(visibleModule);
+       }
     } else {
       // This module has not been started.
       if (i === 1) {
@@ -1097,9 +1121,13 @@ exports.getVisibleModules = (req, res, next) => {
             pushVisibleModule(assignedModule, "active", visibleModules);
           } else {
             // The previous module was completed/started less than 20 hours ago.
-            // Add to visible Modules. Mark the status as "upcoming", since it
-            // could be visible as a preview, but not clickable.
-            pushVisibleModule(assignedModule, "upcoming", visibleModules);
+            // Only display this module if the previous module is "completed".
+            const prevAssignedModuleNoDashes = prevAssignedModule.replace('-','');
+            if(req.user.moduleProgress[prevAssignedModuleNoDashes] === "completed") {
+              // Add to visible Modules. Mark the status as "upcoming", since it
+              // could be visible as a preview, but not clickable.
+              pushVisibleModule(assignedModule, "upcoming", visibleModules);
+            }
           }
         }
       }

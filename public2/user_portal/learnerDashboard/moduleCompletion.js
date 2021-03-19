@@ -75,15 +75,15 @@ function updateModuleStatus(modName, moduleGeneralData){
     `);
   }
 
-  // Set the link location for the "return to module" button
-  $('#returnToModuleButton').off();
-  $('#returnToModuleButton').on('click', function(){
-    window.location.href = `/intro/${modName}`;
-  })
-  // show the button to go back to the module if hidden
-  if($('#returnToModuleButton').hasClass('setDisplayNone')){
-    $('#returnToModuleButton').removeClass('setDisplayNone');
-  }
+  // // Set the link location for the "return to module" button
+  // $('#returnToModuleButton').off();
+  // $('#returnToModuleButton').on('click', function(){
+  //   window.location.href = `/intro/${modName}`;
+  // })
+  // // show the button to go back to the module if hidden
+  // if($('#returnToModuleButton').hasClass('setDisplayNone')){
+  //   $('#returnToModuleButton').removeClass('setDisplayNone');
+  // }
   // set the last accessed info
   if(moduleGeneralData.lastAccessed !== 0) {
     $('#moduleStatus .description h3').text(`Last accessed ${humanized_time_span(moduleGeneralData.lastAccessed)}`)

@@ -1,0 +1,33 @@
+.setDisplayNone {
+  display: none !important;
+}
+
+.success.message {
+  margin-top: 20px !important;
+}
+
+.success.message .icon {
+  box-shadow: 0 0 0 0.1em #2c662d inset;
+}
+
+.activeModuleSegment, .inactiveModulesSegment {
+  padding: 0 !important;
+}
+
+.activeModuleSegment h2, .inactiveModulesSegment h2 {
+  cursor: default;
+}
+
+.inactiveCard {
+  cursor: default !important;
+  -webkit-transform: none !important;
+  transform: none !important;
+}
+
+.inactiveCardImage {
+  filter: grayscale(1);
+}
+
+.inactiveCardLabel {
+  z-index: 1;
+}
