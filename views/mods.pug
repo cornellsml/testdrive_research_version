@@ -2,22 +2,65 @@ extends ui_layout
 block content
   -var cdn = "https://dhpd030vnpk29.cloudfront.net";
   
-  .ui.container(style="padding:0;")
-    .ui.success.huge.icon.message.noModsRemainingMessage.setDisplayNone
-      i.circular.check.icon
-      .header There are no remaining modules to complete. Nice work!
-    .ui.basic.segment.activeModuleSegment
-      br
-      h2 Next Module
-      br
-      .ui.four.stackable.link.cards.activeModules(style="padding-bottom:4em;")
+  if user.isStudent
+    .ui.container.removePadding
+      .ui.success.huge.icon.message.noModsRemainingMessage.setDisplayNone
+        i.circular.check.icon
+        .header There are no remaining modules to complete. Nice work!
+      .ui.basic.segment.activeModuleSegment
+        br
+        h2 Next Module
+        br
+        .ui.four.stackable.link.cards.activeModules.addPaddingBottom
+      
+      .ui.basic.segment.inactiveModulesSegment  
+        br
+        h2.setVisibilityHidden Past Modules
+        br
+        .ui.four.stackable.link.cards.inactiveModules.addPaddingBottom
     
-    .ui.basic.segment.inactiveModulesSegment  
+  else
+    .ui.container.removePadding
       br
-      h2.setVisibilityHidden Past Modules
+      h2 Pick A Module:
       br
-      .ui.four.stackable.link.cards.inactiveModules(style="padding-bottom:4em;")
+      .ui.three.stackable.link.cards.addPaddingBottom
+         a.ui.card(href=`/intro/targeted`)
+           .image
+             img(src=cdn+'/targetedads.png')
+           .content
+             .header="Ads on Social Media"
 
+         a.ui.card(href=`/intro/phishing`)
+           .image
+             img(src=cdn+'/phishing.png')
+           .content
+             .header="Scams and Phishing"
+             
+         a.ui.card(href=`/intro/esteem`)
+           .image  
+             img(src=cdn+'/esteem.png')
+           .content
+             .header="The Ups and Downs of Social Media" 
+
+         a.ui.card(href=`/intro/cyberbullying`)
+           .image
+             img(src=cdn+'/upstander.png')
+           .content
+             .header="How to Be an Upstander"
+
+         a.ui.card(href=`/intro/digfoot`)
+           .image
+             img(src=cdn+'/digfoot.png')
+           .content
+             .header="Shaping Your Digital Footprint"
+
+         a.ui.card(href=`/intro/digital-literacy`)
+           .image
+             img(src=cdn+'/news.png')
+           .content
+             .header="News in Social Media"
+         
 block scripts
   script(src="/module_js/mods.js")
   

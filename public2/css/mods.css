@@ -2,6 +2,14 @@
   display: none !important;
 }
 
+.removePadding {
+  padding: 0 !important;
+}
+
+.addPaddingBottom {
+  padding-bottom: 30px;
+}
+
 .setVisibilityHidden {
   visibility: hidden !important;
 }
