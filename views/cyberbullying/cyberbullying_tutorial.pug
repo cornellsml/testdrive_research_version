@@ -19,7 +19,7 @@ block content
         |
         a(href='/user/hannahleee_23')
           img.ui.avatar.image(src=cdn+'/profile_pictures/user55.jpg')
-          span='Dylan Reed'
+          span='Dylan Jones'
       .image
         img.post(src=cdn+"/post_pictures/basketballshoes.jpg")
       .content
@@ -58,9 +58,9 @@ block content
                 a.flag Flag
       .content
         #step7.ui.fluid.left.labeled.right.icon.input()
-          .ui.label            
-            img.ui.avatar.image(src=cdn+'/profile_pictures/user61.jpg', name="Jane Doe")
-          input.newcomment(type='text', placeholder='Write a Message')
+          .ui.label
+            img.ui.avatar.image(src=cdn+'/profile_pictures/'+user.profile.picture, name=user.profile.name)
+          input.newcomment(type='text' placeholder='Write a Comment')
           i.big.send.link.icon
 
 
