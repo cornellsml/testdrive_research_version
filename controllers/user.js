@@ -996,12 +996,13 @@ exports.postUpdateModuleProgress = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    const modNameNoDashes = req.body.module.replace('-','');
+    const modName = req.body.module;
+    const modNameNoDashes = modName.replace('-','');
     // Once marked completed, do not update status again.
     if (user.moduleProgress[modNameNoDashes] !== 'completed'){
       user.moduleProgress[modNameNoDashes] = req.body.status;
     }
-    user.moduleProgressTimestamps[req.body.module] = Date.now();
+    user.moduleProgressTimestamps[modName] = Date.now();
     user.save((err) => {
       if (err) {
         return next(err);

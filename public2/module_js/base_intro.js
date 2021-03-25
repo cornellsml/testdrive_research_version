@@ -17,7 +17,7 @@ const moduleCards = {
 };
 
 function startIntro(){
-  const modName= pathArray;
+  const modName = pathArray[2];
   $.post("/moduleProgress", {
     module: modName,
     status: 'started',
