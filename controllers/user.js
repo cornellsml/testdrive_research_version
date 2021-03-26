@@ -1219,10 +1219,14 @@ exports.getStudentReportData = (req, res, next) => {
     // get freeplay actions
     const freeplayActions = student.feedAction;
 
+    // get assigned modules
+    const assignedModules = student.assignedModules;
+
     res.json({
       pageTimes: pageTimeArray,
       moduleProgress: moduleProgress,
-      freeplayActions: freeplayActions
+      freeplayActions: freeplayActions,
+      assignedModules: assignedModules
     });
   });
 }

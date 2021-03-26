@@ -1,3 +1,7 @@
 .updateClassButton, .confirmClassButton, .getReportButton {
   margin: 15px 0 15px 0 !important;
 }
+
+.removePadding {
+  padding: 0 !important;
+}

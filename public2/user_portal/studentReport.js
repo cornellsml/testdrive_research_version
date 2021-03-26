@@ -1,7 +1,36 @@
-function updateTableHtml(username, studentData){
+function updateTableHtml(username, studentData, assignedModules){
   $('#studentReportSegment').empty();
   $('#studentReportSegment').append(`
     <h2>Viewing Student Report for: ${username}</h2>
+  `);
+  $('#studentReportSegment').append(`
+    <table class="ui collapsing single lined table">
+      <thead class="full-width">
+        <tr>
+          <th colspan="2" class="center aligned"> Assigned Modules </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1.</td>
+          <td>${studentData[assignedModules.module1].modTitle}</td>
+        <tr>
+        <tr>
+          <td>2.</td>
+          <td>${studentData[assignedModules.module2].modTitle}</td>
+        <tr>
+        <tr>
+          <td>3.</td>
+          <td>${studentData[assignedModules.module3].modTitle}</td>
+        <tr>
+        <tr>
+          <td>4.</td>
+          <td>${studentData[assignedModules.module4].modTitle}</td>
+        <tr>
+      </tbody>
+    </table>
+  `);
+  $('#studentReportSegment').append(`
     <table class="ui single lined table">
       <thead>
         <tr>
@@ -190,6 +219,6 @@ $(window).on('load', async function(){
     const studentReportData = await $.get(`/studentReportData/${classId}/${username}`);
     finalStudentTableData = await getTimeColumns(studentReportData, finalStudentTableData);
     finalStudentTableData = await getExploreColumns(studentReportData, finalStudentTableData);
-    updateTableHtml(username, finalStudentTableData);
+    updateTableHtml(username, finalStudentTableData, studentReportData.assignedModules);
   });
 });
