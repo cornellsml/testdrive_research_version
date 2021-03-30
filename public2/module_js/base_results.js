@@ -67,6 +67,29 @@ function recordResponse(responseType,timestamp){
   actionArray.push(jqxhr);
 }
 
+async function postNewCompletedBadge(modName){
+  const completedTypeBadges = await $.getJSON('/json/testdriveBadges.json');
+  const badgeId = `completed_${modName}`;
+  const badgeTitle = completedTypeBadges[badgeId].title;
+  const badgeImage = completedTypeBadges[badgeId].image;
+  await $.post('/postUpdateNewBadge', {
+    badgeId: badgeId,
+    badgeTitle: badgeTitle,
+    badgeImage: badgeImage,
+    _csrf: $('meta[name="csrf-token"]').attr('content')
+  });
+}
+
+async function updateModuleProgressCompleted() {
+  await $.post("/moduleProgress", {
+    module: subdirectory2,
+    status: 'completed',
+    _csrf: $('meta[name="csrf-token"]').attr('content')
+  });
+  await postNewCompletedBadge(subdirectory2);
+}
+
+
 function iterateOverPrompts() {
   let timestamp = Date.now();
 
@@ -92,8 +115,27 @@ function iterateOverPrompts() {
 
   // wait to change pages until all post requests in actionArray return,
   // otherwise the post requests might get cancelled during the page change
-  Promise.all(actionArray).then(function() {
-    window.location.href = `/end/${pathArray[2]}`
+  Promise.all(actionArray).then(async function() {
+    await updateModuleProgressCompleted();
+    const surveyParameters = await $.get('/surveyParameters');
+    if (surveyParameters) {
+      const qualtricsLinks = {
+        "cyberbullying": "",
+        "digital-literacy": "",
+        "digfoot": "",
+        "phishing": "",
+        "targeted": ""
+      };
+      const qualtricsUrl = `${qualtricsLinks[subdirectory2]}?classCode=${surveyParameters.classCode}&username=${surveyParameters.username}`;
+      console.log(`Qualtrics url: ${qualtricsUrl}`);
+      // window.location.href = qualtricsUrl;
+      // TODO: change once the qualitrics links are available.
+      window.location.href = `/`;
+    // surveyParameters will return false if the currently logged in user is not a
+    // student.
+    } else {
+      window.location.href = `/end/${subdirectory2}`;
+    }
   });
 }
 
@@ -151,6 +193,7 @@ $(window).on("load", function(){
     $('.results_end').on('click', function () {
       $(".insertPrint").empty();
       if(checkAllPromptsOpened() === true){
+        $(this).addClass('disabled loading')
         return iterateOverPrompts();
       } else {
         // slightly different messaging for start vs next buttons

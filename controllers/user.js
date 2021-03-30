@@ -987,6 +987,20 @@ exports.postUpdateHabitsTimer = (req, res, done) => {
 };
 
 
+exports.getSurveyParameters = (req, res, next) => {
+  if(req.user.isStudent) {
+    const surveyParameters = {
+      classCode: req.user.accessCode,
+      username: req.user.username
+    }
+    return res.send(surveyParameters);
+  } else {
+    // indicates that there should not be a survey link for this account.
+    const surveyParameters = false;
+    return res.send(surveyParameters);
+  }
+}
+
 /**
  * Post update on module progress
  */
@@ -1058,10 +1072,10 @@ It will be visible, but may not be clickable
 depending on the time elapsed. It becomes unclickable 20 hours after starting.
 */
 exports.getVisibleModules = (req, res, next) => {
-  if (!req.user.isStudent) {
-    return res.status(400).send("Bad Request");
-  }
   let visibleModules = [];
+  if (!req.user.isStudent) {
+    return res.send(visibleModules);
+  }
   // iterate through the assigned modules in order, 1-4.
   for (let i=1; i<5; i++) {
     const assignedModuleKey = `module${i}`;

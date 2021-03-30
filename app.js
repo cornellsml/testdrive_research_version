@@ -681,6 +681,7 @@ app.get('/moduleProgress/:classId', passportConfig.isAuthenticated, classControl
 app.get('/classReflectionResponses/:classId', passportConfig.isAuthenticated, classController.getReflectionResponses);
 app.get('/classFreeplayActions/:classId/:modName', passportConfig.isAuthenticated, classController.getClassFreeplayActions);
 app.get('/classIdList', passportConfig.isAuthenticated, classController.getClassIdList);
+app.get('/surveyParameters', passportConfig.isAuthenticated, userController.getSurveyParameters);
 /**
  * Error Handler.
  */

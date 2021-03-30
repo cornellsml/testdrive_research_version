@@ -30,13 +30,14 @@ function createModuleCompletionCountChart(completedModules, totalModuleCount){
 }
 
 async function appendEarnedBadges(){
+  const cdn = "https://dhpd030vnpk29.cloudfront.net";
   const earnedBadges = await $.get('/getLearnerEarnedBadges');
   for(const badge of earnedBadges) {
     $(`#badgeItems`).append(`
       <div class="column">
         <div class="ui basic segment center aligned">
           <div class="ui tiny image">
-            <img src="/badges/${badge.image}"></img>
+            <img src="${cdn}/badge_images/${badge.image}"></img>
           </div>
           <div class="content middle aligned">
             <p>${badge.title}</p>
