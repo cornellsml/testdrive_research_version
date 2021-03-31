@@ -120,17 +120,16 @@ function iterateOverPrompts() {
     const surveyParameters = await $.get('/surveyParameters');
     if (surveyParameters) {
       const qualtricsLinks = {
-        "cyberbullying": "",
-        "digital-literacy": "",
-        "digfoot": "",
-        "phishing": "",
-        "targeted": ""
+        "cyberbullying": "https://cornell.ca1.qualtrics.com/jfe/form/SV_6gvfzZ9lbnmeMoC",
+        "esteem": "https://cornell.ca1.qualtrics.com/jfe/form/SV_cuVId7BzyIbD8km",
+        "digital-literacy": "https://cornell.ca1.qualtrics.com/jfe/form/SV_cuMDJCaay8x3lKm",
+        "digfoot": "https://cornell.ca1.qualtrics.com/jfe/form/SV_d43He1ilPd4QY7A",
+        "phishing": "https://cornell.ca1.qualtrics.com/jfe/form/SV_ekXVMiHv0016UfA",
+        "targeted": "https://cornell.ca1.qualtrics.com/jfe/form/SV_bjva9BUaZpLt930"
       };
-      const qualtricsUrl = `${qualtricsLinks[subdirectory2]}?classCode=${surveyParameters.classCode}&username=${surveyParameters.username}`;
+      const qualtricsUrl = `${qualtricsLinks[subdirectory2]}?GroupCode=${surveyParameters.classCode}&Username=${surveyParameters.username}`;
       console.log(`Qualtrics url: ${qualtricsUrl}`);
-      // window.location.href = qualtricsUrl;
-      // TODO: change once the qualitrics links are available.
-      window.location.href = `/`;
+      window.location.href = qualtricsUrl;
     // surveyParameters will return false if the currently logged in user is not a
     // student.
     } else {
