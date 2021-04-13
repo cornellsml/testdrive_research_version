@@ -146,7 +146,8 @@ const userSchema = new mongoose.Schema({
   pageLog: [new Schema({
     time: Date,
     subdirectory1: String,
-    subdirectory2: String
+    subdirectory2: String,
+    artificialVisit: {type: Boolean, default: false}
     })],
 
   //When and why someone reported an actor
@@ -369,9 +370,10 @@ userSchema.methods.logUser = function logUser(time) {
   });
 };
 
-userSchema.methods.logPage = function logPage(time, subdirectory1, subdirectory2) {
+userSchema.methods.logPage = function logPage(time, subdirectory1, subdirectory2, artificialVisit) {
     let log = {};
     log.time = time;
+    log.artificialVisit = artificialVisit;
     if(subdirectory1 !== undefined){
       log.subdirectory1 = subdirectory1;
       log.subdirectory2 = subdirectory2;

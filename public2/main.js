@@ -19,6 +19,7 @@ $(window).on("load", function () {
   $.post("/pageLog", {
     subdirectory1: pathArray[1],
     subdirectory2: pathArray[2],
+    artificialVisit: false,
     _csrf: $('meta[name="csrf-token"]').attr('content')
   });
 

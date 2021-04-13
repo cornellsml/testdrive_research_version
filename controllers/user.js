@@ -786,7 +786,7 @@ exports.postPageLog = (req, res, next) => {
 
   User.findById(req.user.id, (err, user) => {
     if (err) { return next(err); }
-    user.logPage(Date.now(), req.body.subdirectory1, req.body.subdirectory2);
+    user.logPage(Date.now(), req.body.subdirectory1, req.body.subdirectory2, req.body.artificialVisit);
     user.save((err) => {
       if (err) {
         return next(err);

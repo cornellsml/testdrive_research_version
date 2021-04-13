@@ -128,7 +128,19 @@ function iterateOverPrompts() {
         "targeted": "https://cornell.ca1.qualtrics.com/jfe/form/SV_bjva9BUaZpLt930"
       };
       const qualtricsUrl = `${qualtricsLinks[subdirectory2]}?GroupCode=${surveyParameters.classCode}&Username=${surveyParameters.username}`;
-      console.log(`Qualtrics url: ${qualtricsUrl}`);
+      /* Need to add a "visit" to the end page for various functionalities to work:
+        + calculating the time spent on the reflection page
+        + calculating the time spent completing the entire module
+        Calculating 'time spent' uses the difference between adjacent pageLog entries,
+        and now that the Qualtrics link is linked here, the 'end' page is no longer visited.
+        Adding an artificial "visit" to that page will fix a multitude of issues.
+      */
+      await $.post("/pageLog", {
+        subdirectory1: "end",
+        subdirectory2: pathArray[2],
+        artificialVisit: true,
+        _csrf: $('meta[name="csrf-token"]').attr('content')
+      });
       window.location.href = qualtricsUrl;
     // surveyParameters will return false if the currently logged in user is not a
     // student.
