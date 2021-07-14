@@ -1,3 +1,8 @@
+This is not the correct repository to use for new studies. 
+=======================
+
+There is a current study using code off of this repo, but going forward, the upstream repository is the new central codebase from which new research studies will be created.
+
 Truman Platform
 =======================
 
